@@ -62,7 +62,7 @@ for(var i = 0; i < count; i++){
 
 var chess = document.getElementById("chess");
 var context = chess.getContext("2d");
-context.strokeStyle = "#262626";
+context.strokeStyle = "#464646";
 
 var logo = new Image();
 logo.src = "logo.jpg";
@@ -91,7 +91,7 @@ var oneStep = function (i, j, me) {//i,j为位置索引，me代表是黑棋还�
         gradient.addColorStop(0, "#0a0a0a");
         gradient.addColorStop(1, "#636766");
     } else {
-        gradient.addColorStop(0, "#d1d1d1");
+        gradient.addColorStop(0, "#acacac");
         gradient.addColorStop(1, "#f9f9f9");
     }
     context.fillStyle = gradient;
