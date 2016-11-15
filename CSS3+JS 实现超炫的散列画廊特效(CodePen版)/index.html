@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>海报画廊</title>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<!--onselectstart = "return false" 禁止选择文本-->
+<body onselectstart = "return false;">
+    <!--2.改写视图为模板字符串-->
+    <div class="wrap" id="wrap">
+
+        <div class="photo photo_front" onclick="turn(this)" id="photo_{{index}}">
+            <!--photo负责平移和旋转 photo-wrap负责翻转-->
+
+            <div class="photo-wrap">
+                <div class="side side-front">
+                    <p class="image"><img src="{{img}}" alt=""></p>
+                    <p class="caption">{{caption}}</p>
+                </div>
+                <div class="side side-back">
+                    <p class="desc">{{desc}}</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--<script src="js/data.js"></script>-->
+    <script type="text/javascript">
+
+        var data = [];
+        var dataStr = 'http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/CroNacjBMukEeV9AkAOcubfMA4EfoNGNduugfa5wqsw!/r/dAcBAAAAAAAA、左耳<br>\
+<br>\
+·医学专家说左耳是靠近心脏最近的地方，甜言蜜语要说给左耳听。<br>\
+·喜欢的歌，静静地听，喜欢的人，远远地看！<br>\
+·爱对了是爱情，爱错了是青春。<br>\
+·对不起是你的解脱，不代表我要原谅你的过错。<br>\
+·想想我们曾经无关 又何必彼此为难。<br>\
+·时光只会老去，但时光从不会欺骗我们。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/0rjQX8OJtuLN6Uv43lSGK5c2kIkIJk6vlF.yDFGM3Us!/r/dAQBAAAAAAAA、栀子花开<br>\
+<br>\
+·青春就是再近的距离，也要跑着去。<br>\
+·青春是明知道错了，偏要任性到底！<br>\
+·青春是纵然梦想很远，踮起脚尖就能更近一些。<br>\
+·青春是偏要选择在愚人节告白，就算被拒绝也能笑着说愚人节快乐。<br>\
+·青春是有话就不好好说，偏要悄悄说。<br>\
+·青春就是爱情友情梦想和热血。因为青春，所以来得及。<br>\
+<br>\
+<br>\
+http://rawtj.photo.store.qq.com/psb?/V10bPRng1EP1Av/gnYVJYRfSyClQmTJIxbR.smXX5Gk1I0F4vX0m5sK5q4!/r/dFsBAAAAAAAA、小时代4<br>\
+<br>\
+·时间一点一滴地过去，流逝告别。我们慢慢地走向一个被上帝作记号的地点。<br>\
+·旋转着的，五彩缤纷的物质世界。等价交换的，最残酷的也最公平的寒冷人间。<br>\
+·我用十年青春，赴你最后之约!<br>\
+·有些人 交错后就转身， 只留下背影从此不再过问。<br>\
+·被冰封的心，无止境的休眠，我在等待为我破冰的人。<br>\
+·此刻的别离，我们沉默不语。不经世的我们，约好下一个路口等。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/KkiYBGw41WTPvD6g8i0pq0.3.8AhuRHEa8lOzJILWCE!/r/dAsBAAAAAAAA、中国合伙人<br>\
+<br>\
+·不要跟丈母娘打麻将，不要跟想法比你多的女人上床，不要跟最好的朋友合伙开公司。<br>\
+·梦想是什么，梦想就是一种让你感到坚持就是幸福的东西。<br>\
+·当才华撑不起野心的时候，只能安静读书。<br>\
+·最大的骗子其实是我们自己，因为我们总是想改变别人，而拒绝改变自己。<br>\
+·你知道吗 听一个人说话，不要听他说了什么，而是要听他没说什么。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/eZsLZQsrH7QaDWB*a41p5BjPsQtXXZ5gAhBNO0PnEx0!/r/dHcBAAAAAAAA、分手大师<br>\
+<br>\
+·独行太久心会变坚硬，只有爱会让它松动。<br>\
+·痛苦的将就不如痛快的分手。<br>\
+·在通往成功的道路上，坚持不等于缺心眼。<br>\
+·牵手的甜蜜是短暂的,分手的痛苦是永恒的,这就是人类的宿命。<br>\
+·上帝很忙，他只教会人们如何谈恋爱，却忘记了教人们如何分手！<br>\
+·人生的道路就如同内裤，每一条都是自己选的。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/WnxkelBDucAWdWS.R1bou0Y4fiuGbZmJafTfxDqrIU8!/r/dG8BAAAAAAAA、后会无期<br>\
+<br>\
+·我们听过无数的道理，却仍旧过不好这一生。<br>\
+·喜欢就会放肆，但爱就是克制。<br>\
+·每一次告别，最好用力一点。多说一句，可能是最后一句。多看一眼，可能是最后一眼。<br>\
+·有时候，你想证明给一万个人看，到后来，你发现只得到了一个明白的人，那就够了。<br>\
+·带不走的留不下，留不下的莫牵挂。<br>\
+·她们都是你漫漫长路上，只配错过的好姑娘。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/fwF9f0Xq*FWhdqNQNLOPZHkwvUDkXDtA0fv6EADdMCQ!/r/dAgBAAAAAAAA、何以笙箫默<br>\
+<br>\
+·如果世界上曾经有那个人出现过，其他人都会变成将就。而我不愿意将就。<br>\
+·你跑的那么慢，我当初是怎么让你追上的？<br>\
+·其实等待并不可怕，可怕的是不知道何时是个尽头。<br>\
+·向来缘浅，奈何情深;已然情深，何惧缘浅。<br>\
+·世界上最痛苦的事，不是无能为力，而是当一切都触手可及，我却不愿伸出手去。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/FqYVmdeNQUvYRrDueSfAbPDNTX9mqMPvuIhyTB87Z0Y!/r/dG8BAAAAAAAA、匆匆那年<br>\
+<br>\
+·那时候，我们以为喜欢就是永远。后来才发现，我们只有曾经，没有永远。<br>\
+·我喜欢你 是我的 不是我的 我都喜欢<br>\
+·在开始时毫无所谓，在结束时痛彻心扉。<br>\
+·你可以打我，你可以骂我，但你千万不要说我没有努力过。<br>\
+·我想从这里开始重新来过，和之前不一样的重新来过。<br>\
+·既然已匆匆，不如早怀念。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/d0zMSTZzjWorVLNfzgzw6Fi3M4RvgYTZG68lyylEoxk!/r/dPgAAAAAAAAA、同桌的妳<br>\
+<br>\
+·时间太长 我怕等不到你，距离太远 我怕追不上你，爱情太沉 我怕放不下你。<br>\
+·这是我们两个人的事，我一个人办不到。<br>\
+·总有一天，我会带你去只有我们两个人的地方。<br>\
+·记忆总是喜欢添油加醋，它会朝着你期待的方向修改，当你欣喜若狂的时候，真相，会将你惊醒。<br>\
+·总有一天，我会带你去只有我们两个人的地方。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/xJyOlIoanyks7wI4QiHHfvnJFKXtc1X6.Bb1NVaSRIs!/r/dGYBAAAAAAAA、灰姑娘<br>\
+<br>\
+·每个女孩，心中都有一只水晶鞋。<br>\
+·Kindness is free. Love is free. 善良和爱都是免费的。<br>\
+·Where there is kindness, there is goodness.And where there is goodness, there is magic. <br>\
+·有善良之处即有美德，有美德之处即有魔力。<br>\
+·我也不知道那只美丽的玻璃鞋能否合我的脚。但是……如果合脚，你能接受这个真实的我吗？<br>\
+<br>\
+<br>\
+http://rawtj.photo.store.qq.com/psb?/V10bPRng1EP1Av/7QWgn*uMg4u1YeE0gUBGhyifAO*2d9Mg2NttLnj*UK4!/r/dHEBAAAAAAAA、千与千寻<br>\
+<br>\
+·人生就是一列开往坟墓的列车，路途上会有很多站，很难有人可以自始至终陪着走完。当陪你的人要下车时，即使不舍也该心存感激，然后挥手道别。<br>\
+·曾经发生过的事情不可能忘记，只不过是想不起而已。<br>\
+·人永远不知道，谁哪次不经意的跟你说了再见之后，就真的不会再见了。<br>\
+·我只能送你到这里了，剩下的路你要自己走，不要回头。<br>\
+<br>\
+<br>\
+http://rawtj.photo.store.qq.com/psb?/V10bPRng1EP1Av/6ADGtQUgMLt1ZRoKmeYz7MwIOcnUssQwpKd9FUKETaY!/r/dH4BAAAAAAAA、哆啦A梦：伴我同行<br>\
+<br>\
+·我一直在，守着你的天真和笑容。<br>\
+·你总是这样轻言放弃的话，无论多久都只会原地踏步。<br>\
+·一开始做不到的事就别吹牛啊！总是依靠我依靠我怎么行啊！偶尔也自己努力一下试试啊！<br>\
+·每个人都有自己的任务，任务完成了，就离开吧。<br>\
+·大雄：“我不想长高” 多啦A梦：“为什么” 大雄：“因为我长高了哆啦A梦就不能牵到我的手了”<br>\
+<br>\
+<br>\
+http://rawtj.photo.store.qq.com/psb?/V10bPRng1EP1Av/DwjLE1BuOO3*4mmHMjIACp14zQO1yQGITbCJ.hB5BP4!/r/dHEBAAAAAAAA、冰雪奇缘<br>\
+<br>\
+·爱就是把某个人看得比你自己重要。<br>\
+·你必须先结束一段不对的感情，才能发现那个最适合你的人。<br>\
+·解救冰封的心，只能靠一个发自真爱的行动。<br>\
+·做个好女孩，就像你从前一样。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/if0Im1xDxd64hE1jwf2*eU*8xJOVLhaqOhxluIrLUyQ!/r/dGYBAAAAAAAA、超能陆战队<br>\
+<br>\
+·我长成这样是为了让人看起来更想拥抱。<br>\
+·如果你生气了，就欺负我好了，反正我那么喜欢你。<br>\
+·相信我，就算有一天，我们不小心走散，我也会回来找你的。<br>\
+·为了你，我什么都会去做。只是有时候我笨手笨脚的，能不能不要怪我呢。<br>\
+·我们有时并不想成为英雄，只是生活有时候超出我们的想象。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/ILGH4a.wjVKH2AruvVz2kP4SHOugo92Qi1DrHp7D6Q0!/r/dAUBAAAAAAAA、我的男友和狗<br>\
+<br>\
+·她不只是宠物，她是我的家人。<br>\
+·不要每次吵架都不说话， 不说话不能解决问题。<br>\
+·没有天生就会照顾孩子的父母。<br>\
+·和她相处的每一分钟，都是那么珍贵。<br>\
+·我是爸爸，你才是妈妈。<br>\
+·人不是生来就懂得爱。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/Fp7oNMlhZ4D3.mxUVrA4rlUXMeqfcSniCzqSiQTfkFk!/r/dHwBAAAAAAAA、神偷奶爸<br>\
+<br>\
+·你装过头了 其实内在是一颗破碎的心。<br>\
+·蹩脚的谎话 我甚至都不喜欢她<br>\
+·Are you reallyabcgonna save the world? 你真的要拯救世界吗? Yes. Yes, I am. 是的是的 没错<br>\
+·You just officially hadabcthe worst date ever. 你圆满完成了史上最糟糕约会<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/A9oxdl.qxlEIg11bkGDd9.ylGkggvib*5CsaF3XVti4!/r/dHABAAAAAAAA、驯龙高手<br>\
+<br>\
+·我知道这希望渺茫，但是你不能总是保护他。<br>\
+·哦，上帝不喜欢我。有些人会弄丢刀子，杯子。不，不应该是我啊！我弄丢了一条龙！<br>\
+·我父亲让我用头去撞石头，我照做了。我觉得这很疯狂，但是我没问他为什么。<br>\
+·不，你想错了，他在乎的不是你的外表，他看重的是你的灵魂。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/g2qbF5WlA6gHPt.KRW8*Wu07SoAZqkqElto2vT2Dkqs!/r/dGYBAAAAAAAA、奔跑吧！兄弟<br>\
+<br>\
+·邓超：We are 伐木累<br>\
+·王宝强：What are you弄啥哩？<br>\
+·Angelababy：Boom ShakaLaka<br>\
+·王宝强：郑恺你怎么又死在女人手里了？<br>\
+·陈赫：你是猪吗？<br>\
+·李晨：我们来打一架吧！<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/V0*IJmJ.7kt2*qfbExHAd7xEvPpfB*6mlGaAO*c2NJE!/r/dGYBAAAAAAAA、老男孩猛龙过江<br>\
+<br>\
+·成长似乎就是不断发现，那些让自己魂牵梦绕的东西，原来都是一场场幻想，然后一次次从梦里醒过来，而现实从来连一点商量的余地都没有。<br>\
+·如果你的梦想还没有实现,说明你的渴望还不够强烈!<br>\
+·丢掉什么不重要，关键是找回来什么。<br>\
+·生活就像镜子 你笑它就笑 你哭它就哭。<br>\
+·分手还能做朋友,你问我爱你有多深。<br>\
+<br>\
+<br>\
+http://r.photo.store.qq.com/psb?/V10bPRng1EP1Av/Mid2OaapngGo3PWq6ptKff7QCuC728CeWgwaI05ocH4!/r/dG8BAAAAAAAA、当幸福来敲门<br>\
+<br>\
+·当人们做不到一些事情的时候，他们就会对你说你也同样不能。<br>\
+·如果你有梦想的话，就要去捍卫它。<br>\
+·当你最认为困难的时候，其实就是你最接近成功的时候。<br>\
+·以后连朋友都不做了？ ---没法儿做，太相爱的人怎么做朋友<br>\
+·机会总是留给有准备的人，但那往往是努力的人剩下来的。<br>\
+';
+        var d = dataStr.split('<br><br><br>');
+        for (var i = 0; i < d.length; i++) {
+            var c = d[i].split('<br><br>');
+            data.push({
+                img: c[0].split('、')[0],
+                caption: c[0].split('、')[1],
+                desc: c[1]
+            });
+            console.log(data[i].img);
+            //console.log(c[0].replace('、', ' ') + '.jpg');
+        };
+
+
+        //3.通用函数
+        function g(selector) {
+            var method = selector.substr(0,1) == "."? "getElementsByClassName" : "getElementById";
+            return document[method](selector.substr(1));
+        }
+
+        //随机生成一个范围值
+        function random(range) {
+            var max = Math.max(range[0],range[1]);
+            var min = Math.min(range[0],range[1]);
+            var diff = max - min;
+            var number = Math.ceil(Math.random() * diff + min);
+            return number;
+        }
+
+        //4.输出所有的海报
+//        var data = data
+        function addPhotos() {
+            var template = g("#wrap").innerHTML;
+            var html = [];
+            var nav = [];
+
+            for (s in data){
+                var _html = template
+                        .replace("{{index}}",s)
+                        .replace("{{img}}",data[s].img)
+                        .replace("{{caption}}",data[s].caption)
+                        .replace("{{desc}}",data[s].desc);
+                html.push( _html );
+                nav.push('<span id="nav_' + s + '" class="i" ' +
+                        'onclick="turn( g(\'#photo_' + s + '\'))"><i class="fa fa-rotate-left"></i></span>');
+            }
+
+            html.push("<div class='nav'>" + nav.join("") +"</div>");
+            g("#wrap").innerHTML = html.join("");
+            rsort(random([0,data.length]) - 1);//这里原视频错了，因为有可能会得到20
+        }
+        addPhotos();
+
+
+        //6.计算左右分区的范围
+        function range() {
+            var range = {
+                left: {
+                    x: [],
+                    y: []
+                },
+                right: {
+                    x: [],
+                    y: []
+                }
+            }
+
+            var wrap = {
+                w: g("#wrap").clientWidth,
+                h: g("#wrap").clientHeight
+            }
+            var photo= {
+                w: g(".photo")[0].clientWidth,
+                h: g(".photo")[0].clientHeight
+            }
+
+            range.wrap = wrap;
+            range.photo = photo;
+
+            range.left.x = [0 - photo.w/2, wrap.w/2 - photo.w/2];
+            range.left.y = [0 - photo.h/2, wrap.h - photo.h/2];
+            range.right.x = [wrap.w/2 + photo.w/2, wrap.w - photo.w/2];
+            range.right.y = range.left.y;
+            return range;
+        }
+
+        //5.排序海报
+        function rsort(n) {
+            var _photo = g(".photo");
+            var photos = [];
+
+            //把所有的photo_center类去掉
+            for(s = 0; s < _photo.length; s++){
+                _photo[s].className = _photo[s].className
+                        .replace(/\s*photo_center\s*/," ");
+                _photo[s].className = _photo[s].className
+                        .replace(/\s*photo_front\s*/," ");
+                _photo[s].className = _photo[s].className
+                        .replace(/\s*photo_back\s*/," ");
+
+                _photo[s].className += " photo_front ";
+                _photo[s].style.left = "";
+                _photo[s].style.top = "";
+                _photo[s].style["transform"] =
+                        _photo[s].style["-webkit-transform"] = "rotate(360deg) scale(1.3)";
+
+                photos.push(_photo[s]);
+            }
+
+            var photo_center = g("#photo_"+n);
+            photo_center.className += " photo_center ";
+
+            photo_center = photos.splice(n,1)[0];
+
+            //把海报分为左右区域
+            var photos_left = photos.splice(0, Math.ceil(photos.length/2));
+            var photos_right = photos;
+
+            var ranges = range();
+            for (s in photos_left){
+                var photo = photos_left[s];
+
+                photo.style.left = random(ranges.left.x) + "px";
+                photo.style.top = random(ranges.left.y) + "px";
+                photo.style['transform']
+                        =  photo.style['-webkit-transform'] = "rotate("+ random([-150,150])+"deg) scale(1)";
+            }
+            for (s in photos_right){
+                var photo = photos_right[s];
+
+                photo.style.left = random(ranges.right.x) + "px";
+                photo.style.top = random(ranges.right.y) + "px";
+                photo.style['transform']
+                        = photo.style['-webkit-transform'] = "rotate("+ random([-150,150])+"deg) scale(1)";
+            }
+
+            var navs = g(".i");
+            for (var s = 0;s < navs.length; s++){
+                navs[s].className = navs[s].className
+                        .replace(/\s*i_current\s*/," ");
+                navs[s].className = navs[s].className
+                        .replace(/\s*i_back\s*/," ");
+
+            }
+            g("#nav_"+n).className += " i_current ";
+        }
+
+        //1.翻面控制
+        function turn(elem) {
+            var cls = elem.className;
+            var n = elem.id.split("_")[1];
+
+            if (!/photo_center/.test(cls)){
+                return rsort(n);
+            }
+
+            if ( /photo_front/.test(cls)){
+                cls = cls.replace(/photo_front/, "photo_back");
+                g("#nav_"+n).className +=" i_back ";
+            } else {
+                cls = cls.replace(/photo_back/, "photo_front");
+                g("#nav_"+n).className = g("#nav_"+n).className.replace(/\s*i_back\s*/," ");
+
+            }
+            return elem.className = cls;
+        }
+    </script>
+</body>
+</html>
