@@ -1,0 +1,40 @@
+body{
+    margin: 0;
+    padding: 50px;
+    font-size: 14px;
+    color: #333;
+}
+@mixin ui($width, $height, $bgcolor, $cursor){
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: $width;
+    height: $height;
+    //background-color: $bgcolor;
+    cursor: $cursor;
+}
+
+.panel{
+    width: 400px;
+    height: 240px;
+    border: 1px solid #ccc;
+    position: relative;
+
+    .title{
+        background-color: #eee;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid #fff;
+        font-weight: bold;
+    }
+    .ui-Resizable-r{
+       @include ui(10px, 100%, green, e-resize);
+        top: 0;
+    }
+    .ui-Resizable-b{
+        @include ui(100%, 10px, blue, s-resize);
+    }
+    .ui-Resizable-rb{
+        @include ui(20px, 20px, red, nw-resize);
+    }
+}

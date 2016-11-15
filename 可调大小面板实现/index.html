@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+<div class="panel" id="ui-resizable">
+    <div class="title">Resizable Panel</div>
+    <!--<div class="ui-Resizable-r"></div>-->
+    <!--<div class="ui-Resizable-b"></div>-->
+    <!--<div class="ui-Resizable-rb"></div>-->
+</div>
+<script type="text/javascript">
+    var m_panel, m_ctrl, m_type;//面板，控制元素，类型(r,b,rb)
+    //moving:鼠标是否拖动
+    var moving = 0, m_start_x = 0, m_start_y = 0, m_to_x = 0, m_to_y = 0;
+
+    //2.控制元素支持拖拽
+    function on_mousedown(e, panel, ctrl, type) {
+        var e = e || window.event;
+        m_start_x = e.pageX - ctrl.offsetLeft;
+        m_start_y = e.pageY - ctrl.offsetTop;
+        m_panel = panel;
+        m_ctrl = ctrl;
+        m_type = type;
+
+        //开始处理移动事件
+        moving = setInterval(on_move, 10);
+    }
+    function on_move() {
+        if (moving) {
+            //限定拖拽区域
+            var min_left = m_panel.offsetLeft;
+            var min_top = m_panel.offsetTop;
+
+            var to_x = m_to_x - m_start_x;
+            var to_y = m_to_y - m_start_y;
+
+            to_x = Math.max(to_x,min_left);
+            to_y = Math.max(to_y,min_top);
+
+            switch (m_type) {
+                case "r":
+                    m_ctrl.style.left = to_x + "px";
+                    m_panel.style.width = to_x + 10 + "px";
+                    break;
+                case "b":
+                    m_ctrl.style.top = to_y + "px";
+                    m_panel.style.height = to_y + 10 + "px";
+                    break;
+                case "rb":
+                    m_ctrl.style.left = to_x + "px";
+                    m_ctrl.style.top = to_y + "px";
+                    m_panel.style.width = to_x + 20 + "px";
+                    m_panel.style.height = to_y + 20 + "px";
+                    break;
+            }
+        }
+    }
+
+    //处理在页面上移动鼠标的事件
+    document.onmousemove = function (e) {
+        var e = e || window.event;
+        m_to_x = e.pageX;
+        m_to_y = e.pageY;
+    }
+    //处理鼠标松开
+    document.onmouseup = function (e) {
+        clearInterval(moving);
+        moving = 0;
+        var cls = document.getElementsByClassName("ui-Resizable-ctrl");
+        for (var i = 0; i<cls.length; i++){
+            cls[i].style.left = "";
+            cls[i].style.top = "";
+        }
+    }
+
+    //1.为panel加入控制元素
+    function Resizable(panel_id) {
+        var panel = document.getElementById(panel_id);
+
+        var r = document.createElement("div");
+        var b = document.createElement("div");
+        var rb = document.createElement("div");
+
+        r.class = r.className = "ui-Resizable-r ui-Resizable-ctrl";
+        b.class = b.className = "ui-Resizable-b ui-Resizable-ctrl";
+        rb.class = rb.className = "ui-Resizable-rb ui-Resizable-ctrl";
+
+        panel.appendChild(r);
+        panel.appendChild(b);
+        panel.appendChild(rb);
+
+        //为控制元素设置拖拽处理
+        r.addEventListener("mousedown",function (e) {
+            on_mousedown(e, panel, r, "r");
+        });
+        b.addEventListener("mousedown",function (e) {
+            on_mousedown(e, panel, b, "b");
+        });
+        rb.addEventListener("mousedown",function (e) {
+            on_mousedown(e, panel, rb, "rb");
+        });
+    }
+    Resizable("ui-resizable");
+</script>
+</body>
+</html>
