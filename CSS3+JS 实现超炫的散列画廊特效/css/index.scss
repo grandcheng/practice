@@ -1,0 +1,167 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: #fff;
+    color: #555;
+    font-family: "Avenir Next", "Lantinghei SC";
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+}
+
+@mixin wl($width, $height){
+    width: $width;
+    height: $height;
+}
+
+.wrap{
+    @include wl(100%, 600px);
+    position: absolute;
+    top: 50%;
+    margin-top: -300px;
+    background-color: #333;
+    overflow: hidden;
+    -webkit-perspective: 800px;
+    -moz-perspective: 800px;
+
+    .photo{//海报样式
+        @include wl(260px, 320px);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -160px 0 0 -130px;
+        //初始化时每张海报都居中显示，然后通过 JavaScript 设置除中间海报外的随机位置，会产生从中间发散的效果时候时候，
+        //切换中间海报的时候，由于中间海报瞬间失去了 .photo_center 的样式，但仍然还有 .photo 的样式，再被设置随机样式后会有平滑的过渡效果
+        z-index: 1;
+        -webkit-transition: all .6s;
+        -moz-transition: all .6s;
+
+        .photo-wrap{//负责翻转
+            position: absolute;
+            @include wl(100%, 100%);
+            box-shadow: 0 0 10px rgba(0,0,0,.5);
+            -webkit-transform-origin: 0% 50%;
+            -moz-transform-origin: 0% 50%;
+            -webkit-transform-style: preserve-3d;//支持子元素的3d效果
+            -moz-transform-style: preserve-3d;//支持子元素的3d效果
+            -webkit-transition: all .6s ease-in-out;
+            -moz-transition: all .6s ease-in-out;
+
+            .side{
+                @include wl(100%, 100%);
+                position: absolute;
+                background-color: #eee;
+                top: 0;
+                right: 0;
+                padding: 20px;
+                box-sizing: border-box;
+                -webkit-backface-visibility: hidden;//当元素不面向屏幕时隐藏
+                -moz-backface-visibility: hidden;//当元素不面向屏幕时隐藏
+
+            }
+            .side-front{
+                -webkit-transform: rotateY(0deg);
+                -moz-transform: rotateY(0deg);
+
+                .image{
+                    @include wl(100%, 250px);
+                    line-height: 250px;
+                    overflow: hidden;
+
+                    img{
+                        width: 100%;
+                    }
+                }
+                .caption{
+                    text-align: center;
+                    font-size: 16px;
+                    line-height: 50px;
+                }
+            }
+            .side-back{
+                -webkit-transform: rotateY(180deg);
+                -moz-transform: rotateY(180deg);
+
+                .desc{
+                    color: #666;
+                    font-size: 14px;
+                    line-height: 1.5em;
+                }
+            }
+        }
+    }
+
+    .photo_center{//当前选中的海报样式
+        left: 50%;
+        top: 50%;
+        margin: -160px 0 0 -130px;
+        z-index: 999;
+    }
+
+    .photo_front .photo-wrap{
+        -webkit-transform: translate(0px, 0px) rotateY(0deg);
+        -moz-transform: translate(0px, 0px) rotateY(0deg);
+    }
+    .photo_back .photo-wrap{
+        -webkit-transform: translate(260px, 0px) rotateY(180deg);
+        -moz-transform: translate(260px, 0px) rotateY(180deg);
+    }
+
+    //控制按钮的样式
+    .nav{
+        @include wl(80%, 30px);
+        line-height: 30px;
+        position: absolute;
+        left: 10%;
+        bottom: 20px;
+        z-index: 999;
+        text-align: center;
+
+        .i{
+            @include wl(30px, 30px);
+            display: inline-block;
+            cursor: pointer;
+            background-color: #acacac;
+            text-align: center;
+            border-radius: 50%;
+            box-shadow: 5px 5px 10px rgba(0,0,0,.75);
+            -webkit-transform: scale(.48);
+            -moz-transform: scale(.48);
+            -webkit-transition: all .6s;
+            -moz-transition: all .6s;
+
+            &:hover{
+                -webkit-transform: scale(.75);
+                -moz-transform: scale(.75);
+                -webkit-transition: all .3s;
+                -moz-transition: all .3s;
+            }
+            .fa{
+                opacity: 0;
+            }
+        }
+        .i_current{
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+
+            &:hover{
+                -moz-transform: scale(1);
+            }
+            .fa{
+                opacity: 1;
+            }
+        }
+        .i_back{
+            -webkit-transform: rotateY(-180deg);
+            -moz-transform: rotateY(-180deg);
+            background-color: #7d7d7d;
+
+            &:hover{
+                -webkit-transform: rotateY(-180deg);
+                -moz-transform: rotateY(-180deg);
+            }
+        }
+    }
+}
