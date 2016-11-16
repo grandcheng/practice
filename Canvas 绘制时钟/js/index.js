@@ -104,4 +104,3 @@ function draw() {
 
 draw();
 setInterval(draw, 1000);
-

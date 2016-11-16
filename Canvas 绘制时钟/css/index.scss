@@ -1,7 +1,14 @@
 div{
     text-align: center;
-    margin-top: 250px;
+    margin-top: 100px;
     #clock{
         border: 1px solid #ccc;
+    }
+}
+#input{
+    position: relative;
+
+    #range{
+        width: 300px;
     }
 }
