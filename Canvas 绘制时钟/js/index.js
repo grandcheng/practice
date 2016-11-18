@@ -1,11 +1,30 @@
 var dom = document.getElementById("clock");
 var ctx = dom.getContext("2d");
-var width = ctx.canvas.width;
-var height = ctx.canvas.height;
-var r = width/2;
-var rem = width / 200;
+// var slider = document.getElementById("range");
 
-function drawBackground() {
+dom.width = 400;
+dom.height = 400;
+
+var width = dom.width
+var height = dom.height;
+var r = width/2;
+var rem = width/200;
+
+// slider.onmousemove = function () {
+//     dom.width = slider.value;
+//     dom.height = slider.value;
+//     var width = dom.width;
+//     var height = dom.height;
+//     var r = width/2;
+//     var rem = width/200;
+//     draw(width, height, r, rem);
+//     var t = setInterval(function () {
+//         draw(width, height, r, rem);
+//         console.log(width+","+height);
+//     },1000);
+// }
+
+function drawBackground(r, rem) {
     ctx.save();
     ctx.translate(r,r);//定义中心
     ctx.beginPath();
@@ -39,8 +58,7 @@ function drawBackground() {
         ctx.fill();
     }
 }
-
-function drawHour(hour, minute) {
+function drawHour(hour, minute, r, rem) {
     ctx.save();
     ctx.beginPath();
     var rad = 2*Math.PI/12 * hour;
@@ -53,8 +71,7 @@ function drawHour(hour, minute) {
     ctx.stroke();
     ctx.restore();
 }
-
-function drawMinute(minute) {
+function drawMinute(minute, r, rem) {
     ctx.save();
     ctx.beginPath();
     var rad = 2*Math.PI/60 * minute;
@@ -66,8 +83,7 @@ function drawMinute(minute) {
     ctx.stroke();
     ctx.restore();
 }
-
-function drawSecond(second) {
+function drawSecond(second, r, rem) {
     ctx.save();
     ctx.beginPath();
     ctx.fillStyle = "#c14543";
@@ -80,27 +96,31 @@ function drawSecond(second) {
     ctx.fill();
     ctx.restore()
 }
-
-function drawDot() {
+function drawDot(rem) {
     ctx.beginPath();
     ctx.fillStyle = "#fff";
     ctx.arc(0,0,3 * rem,0,2*Math.PI,false);
     ctx.fill();
 }
 
-function draw() {
+function draw(width, height, r, rem) {
     ctx.clearRect(0,0,width, height);
     var now = new Date();
     var hour = now.getHours();
     var minute = now.getMinutes();
     var second = now.getSeconds();
-    drawBackground();
-    drawDot();
-    drawHour(hour, minute);
-    drawMinute(minute);
-    drawSecond(second);
+    drawBackground(r, rem);
+    drawDot(rem);
+    drawHour(hour, minute, r, rem);
+    drawMinute(minute, r, rem);
+    drawSecond(second, r, rem);
     ctx.restore();
 }
 
-draw();
-setInterval(draw, 1000);
+window.onload = function () {
+    draw(width, height, r, rem);
+    var t = setInterval(function () {
+        draw(width, height, r, rem);
+    },1000);
+}
+

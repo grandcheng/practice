@@ -1,12 +1,9 @@
 div {
   text-align: center;
-  margin-top: 100px; }
+  height: 600px;
+  width: 600px;
+  margin: 0 auto; }
   div #clock {
     border: 1px solid #ccc; }
-
-#input {
-  position: relative; }
-  #input #range {
-    width: 300px; }
 
 /*# sourceMappingURL=index.css.map */
