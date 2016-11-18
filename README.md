@@ -11,4 +11,5 @@ Canvas 绘制时钟:http://www.imooc.com/learn/612<br>
 学写一个字:http://www.imooc.com/learn/284<br>
 HTML5小游戏---爱心鱼:http://www.imooc.com/learn/515<br>
 http://www.imooc.com/learn/516<br>
-Canvas玩儿转红包照片:http://www.imooc.com/learn/601
+Canvas玩儿转红包照片:http://www.imooc.com/learn/601<br>
+Canvas玩转图像处理:http://www.imooc.com/learn/476

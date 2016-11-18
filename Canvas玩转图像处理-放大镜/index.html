@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background-color: black">
+    <canvas id="canvas" style="display: block;margin: 0 auto; border: 1px solid #aaa"></canvas>
+
+    <canvas id="offCanvas" style="display: none;"></canvas>
+
+<script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+
+    var offCanvas = document.getElementById("offCanvas");
+    var offcontext = offCanvas.getContext("2d");
+
+    var image = new Image();
+    var isMouseDown = false;
+    var scale;
+
+    window.onload = function () {
+        canvas.width = 1152;
+        canvas.height = 768;
+
+        image.src = "img-lg.jpg";
+        image.onload = function () {
+            offCanvas.width = image.width;
+            offCanvas.height = image.height;
+            scale = offCanvas.width/canvas.width;
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            offcontext.drawImage(image, 0, 0);
+        }
+    }
+
+    function windowToCanvas(x, y) {
+        var bbox = canvas.getBoundingClientRect();
+        return{x: x - bbox.left, y: y - bbox.top}
+    }
+
+    canvas.onmousedown = function (e) {
+        e.preventDefault();
+        var point = windowToCanvas(e.clientX, e.clientY);
+        isMouseDown = true;
+        drawMagnifier(true, point);
+    }
+    canvas.onmousemove = function (e) {
+        e.preventDefault();
+        if (isMouseDown){
+            var point = windowToCanvas(e.clientX, e.clientY);
+            drawMagnifier(true, point);
+        }
+    }
+    canvas.onmouseup = function (e) {
+        e.preventDefault();
+        isMouseDown = false;
+        drawMagnifier(false);
+    }
+    canvas.onmouseout = function (e) {
+        e.preventDefault();
+//        isMouseDown = false;
+        drawMagnifier(false);
+    }
+
+    function drawMagnifier(isDraw, point) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        if (isDraw == true){
+            var mx = point.x * scale;//放大镜的中点
+            var my = point.y * scale;
+
+            var mr = 200;//放大镜半径
+
+            var sx = mx - mr;//在offCanvas上开始画的位置
+            var sy = my - mr;//在offCanvas上开始画的位置
+            var dx = point.x - mr;//在canvas上开始画的位置
+            var dy = point.y - mr;//在canvas上开始画的位置
+            context.save();
+            context.lineWidth = 10;
+            context.strokeStyle = "#069";
+            context.shadowBlur = 10;
+            context.shadowColor = "#069";
+            context.beginPath();
+            context.arc(point.x, point.y, mr, 0, Math.PI*2);
+            context.stroke();
+
+            context.clip();
+            context.drawImage(offCanvas, sx, sy, 2 * mr, 2 * mr, dx, dy, 2 * mr, 2 * mr);
+            context.restore();
+        }
+    }
+</script>
+</body>
+</html>
