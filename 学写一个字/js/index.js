@@ -81,7 +81,7 @@ canvas.onmouseup = function (e) {
 };
 canvas.onmouseout = function (e) {
     e.preventDefault();
-    endStroke();
+    // endStroke();
 };
 canvas.onmousemove = function (e) {
     e.preventDefault();
